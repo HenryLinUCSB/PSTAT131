@@ -1,0 +1,217 @@
+---
+title: "Homework 4"
+author: "PSTAT 131/231"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE,
+                      warning = FALSE)
+```
+
+## Resampling
+
+For this assignment, we will continue working with part of a [Kaggle data set](https://www.kaggle.com/c/titanic/overview) that was the subject of a machine learning competition and is often used for practicing ML models. The goal is classification; specifically, to predict which passengers would survive the [Titanic shipwreck](https://en.wikipedia.org/wiki/Titanic).
+
+![Fig. 1: RMS Titanic departing Southampton on April 10, 1912.](images/RMS_Titanic.jpg){width="363"}
+
+Load the data from `data/titanic.csv` into *R* and familiarize yourself with the variables it contains using the codebook (`data/titanic_codebook.txt`).
+
+Notice that `survived` and `pclass` should be changed to factors. When changing `survived` to a factor, you may want to reorder the factor so that *"Yes"* is the first level.
+
+Make sure you load the `tidyverse` and `tidymodels`!
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(ggplot2)
+library(ggthemes)
+# From lab 3
+library(corrplot)
+library(corrr)
+library(pROC)
+library(klaR)
+tidymodels_prefer()
+library(poissonreg)
+library(discrim)
+library(ISLR)
+library(ISLR2)
+#Loading Titanic 
+Tdata = read.csv("~/PSTAT 131/homework-4/data/titanic.csv")
+Tdata$survived <- factor(Tdata$survived)
+Tdata$pclass <- factor(Tdata$pclass)
+Tdata %>%
+  head()
+
+```
+
+*Remember that you'll need to set a seed at the beginning of the document to reproduce your results.*
+
+Create a recipe for this dataset **identical** to the recipe you used in Homework 3.
+
+### Question 1
+
+Split the data, stratifying on the outcome variable, `survived.`  You should choose the proportions to split the data into. Verify that the training and testing data sets have the appropriate number of observations. 
+
+```{r}
+# From Lab 4 
+set.seed(3435)
+titanic_split <- initial_split(Tdata, strata = survived, prop = 0.7) 
+
+titanic_train <- training(titanic_split)
+titanic_test <- testing(titanic_split)
+
+titanic_train %>%
+  head()
+
+dim(titanic_train)
+dim(titanic_test)
+
+#Creating Recipe // from hw 3 
+titanic_recipe <- recipe(survived~pclass + sex + age + sib_sp + parch + fare, data = titanic_train) %>%
+  step_dummy(all_nominal_predictors()) %>%
+  step_interact(terms = ~ sex:fare) %>%
+  step_interact(terms = ~ age:fare) %>%
+  step_impute_linear(age, impute_with = imp_vars(all_predictors()))
+```
+### Question 2
+
+Fold the **training** data. Use *k*-fold cross-validation, with $k = 10$.
+
+```{r}
+# with $k = 10$.
+
+fold <- vfold_cv(titanic_train, v = 10)
+fold 
+
+# Degree grid from lab4
+degree_grid <- grid_regular(degree(range = c(1, 10)), levels = 10)
+degree_grid
+
+```
+
+### Question 3
+
+In your own words, explain what we are doing in Question 2. What is *k*-fold cross-validation? Why should we use it, rather than simply fitting and testing models on the entire training set? If we **did** use the entire training set, what resampling method would that be?
+
+I believe that for question 2, the k-fold cross-validation was used for splitting the titanic data samples, grouped and split into 10 groups. We use this method to ensure that both test and training sets could include most of the data's that are in the titanic data set. If we did use the entire training set, the sampling method would be validation set method. 
+
+### Question 4
+
+Set up workflows for 3 models:
+
+1. A logistic regression with the `glm` engine;
+2. A linear discriminant analysis with the `MASS` engine;
+3. A quadratic discriminant analysis with the `MASS` engine.
+
+```{r}
+# Logistic regression with glm engine
+logistic_regression <- logistic_reg() %>% #From lab 3
+  set_engine("glm") %>%
+  set_mode("classification") 
+ 
+#Then create a workflow. Add your model and the appropriate recipe. Finally, use `fit()` to apply your workflow to the **training** data.
+
+logistic_workflow <- workflow()%>% #From lab 3
+  add_model(logistic_regression) %>% 
+  add_recipe(titanic_recipe)
+
+
+
+# LDA with mass engine
+
+ldam <- discrim_linear() %>% #From lab 3
+  set_engine("MASS") %>%
+  set_mode("classification") 
+ 
+
+lda_workflow <- workflow()%>% 
+  add_model(ldam) %>% 
+  add_recipe(titanic_recipe)
+
+
+# QDA with mass engine
+qdam <- discrim_quad() %>% #From lab 3
+  set_engine("MASS") %>%
+  set_mode("classification") 
+
+qda_workflow <- workflow()%>% 
+  add_model(qdam) %>% 
+  add_recipe(titanic_recipe)
+
+```
+How many models, total, across all folds, will you be fitting to the data? To answer, think about how many folds there are, and how many models you'll fit to each fold.
+
+With a total of 3 set engine, there would be 3*10(folds) = 30 models I would be fitting for the data. 
+
+### Question 5
+
+Fit each of the models created in Question 4 to the folded data.
+
+**IMPORTANT:** *Some models may take a while to run – anywhere from 3 to 10 minutes. You should NOT re-run these models each time you knit. Instead, run them once, using an R script, and store your results; look into the use of [loading and saving](https://www.r-bloggers.com/2017/04/load-save-and-rda-files/). You should still include the code to run them when you knit, but set `eval = FALSE` in the code chunks.*
+```{r}
+# Fit Log Reg
+fit_logreg <- logistic_workflow %>%
+  fit_resamples(fold)
+
+# Fit LDA
+fit_LDA <- lda_workflow %>%
+  fit_resamples(fold)
+# Fit QDA 
+fit_QDA <- qda_workflow  %>%
+  fit_resamples(fold)
+
+```
+### Question 6
+
+Use `collect_metrics()` to print the mean and standard errors of the performance metric *accuracy* across all folds for each of the four models.
+
+Decide which of the 3 fitted models has performed the best. Explain why. *(Note: You should consider both the mean accuracy and its standard error.)*
+```{r}
+# From lab 4
+collect_metrics(fit_logreg)
+collect_metrics(fit_LDA)
+collect_metrics(fit_QDA)
+
+```
+After performing the 3 fitted models, Logistic Regression model had the lowest mean and std_err, therefore I believe that this model performed best in comparison to the other two. 
+### Question 7
+
+Now that you’ve chosen a model, fit your chosen model to the entire training dataset (not to the folds).
+```{r}
+# Fitting regression model 
+new_logistic_regression <- logistic_reg() %>% #From lab 3
+  set_engine("glm") %>%
+  set_mode("classification") 
+ 
+#Then create a workflow. Add your model and the appropriate recipe. Finally, use `fit()` to apply your workflow to the **training** data.
+
+new_logistic_workflow <- workflow()%>% #From lab 3
+  add_model(logistic_regression) %>% 
+  add_recipe(titanic_recipe)
+
+# New fitted model 
+new_logisitic_workflow_fit <- fit(new_logistic_workflow, titanic_test )
+
+```
+### Question 8
+
+Finally, with your fitted model, use `predict()`, `bind_cols()`, and `accuracy()` to assess your model’s performance on the testing data!
+
+Compare your model’s testing accuracy to its average accuracy across folds. Describe what you see.
+
+```{r}
+# Worked with Abhay Zope on this question 
+predict_log_model <- predict(new_logisitic_workflow_fit, new_data = titanic_test, type = "prob")
+accuracy_log_model <- augment(new_logisitic_workflow_fit, new_data = titanic_train) %>%
+  accuracy(truth = survived, estimate = .pred_class)
+bind_cols(predict_log_model, accuracy_log_model)
+
+
+```
+After fitting the model, the testing accuracy to its average across folds decreased from 79.45% to 77.85% While the logistic model remains the most accurate out of the three models fitted, there are still lots of room of errors. In addition, as from homework3, the decrease of testing accuracy to its average across folds does not concern me in the sense that it is normal for testing accuracy to be less than the training accuracy. 
