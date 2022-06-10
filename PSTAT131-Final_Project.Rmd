@@ -1,0 +1,653 @@
+---
+title: "Pstat-131-Final_Project"
+author: "Henry Lin"
+date: '2022-06-06'
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+---
+_The Truth about CryptoCurrency, Bitcoin._
+
+![Bitcoin Image from https://ichef.bbci.co.uk/news/976/cpsprodpb/B75D/production/_122614964_hi072952441.jpg](images/Bitcoin.jpg){width="500"}
+
+Throughout the past few years, many of you have seen a historical boom in the "Cryptocurrency" market. Coins such as Bitcoin, Ethereum, Litecoin, Dogecoin, and many others have made a name for themselves. Whether you are an invested in cryptocurrency or not, it is essential to understand why these virtual coins have made an impact in its financial market. For a lot of retail investors, cryptocurrency have played a major role in their investment portfolio, following the mainstream media and listening to what their so called "ape leaders" have suggested. However, due to the red hot inflation data released by the US Federal Reserve, cryptocurrency is experiencing the beginning of its downfall. With monetary tightening and interests rate changes, cryptocurrency have felt the hard impact on the new policies implemented by the Federal Reserve. So in this research, there would be 3 main topics that I would be focusing:
+
+1. _What triggered the historical boom in the Cryptocurrency Market?_
+
+2. _How is cryptocurrency, specifically Bitcoin, valuated by the Market?_
+
+3. _My collected Data with: Names, Age, Gender, Investments, Bitcoin?, Other Crypto, and Income_ 
+
+
+
+**The Covid-19 Outbreak in the United States**
+_Source: [https://www.ajmc.com/view/a-timeline-of-covid19-developments-in-2020]_
+
+Before we head into the details of the cryptocurrency market outbreak in 2020-2021, we must first understand the global settings behind the scenes. In early 2020, the WHO (World Health Organization) announced the mysterious Coronavirus-related Pneumonia in Wuhan, China. After Weeks following the discovery of the virus, the CDC confirms the first US Coronavirus Case. During this time, medical teams and researchers were unaware of the severity of this virus, as it was new to many scientific studies. Subsequently, due to the severity of the virus and the exponential growth of people contracting the virus, Wuhan became the first city to go into a full lock down. Here are the highlighted events in the U.S. Covid-19 Outbreak:
+
+_Jan 31_ - WHO Issues Global Health Emergency
+
+_Feb 02_ - Global Air Travel is Restricted
+
+_Feb 03_ - US Declares Public Health Emergency
+
+_Mar 06_ - 21 Passengers on California Cruise Ship Test Positive 
+
+_Mar 11_ - WHO Declares COVID-19 a Pandemic
+
+_Mar 13_ - President Trump declares COVID-19 a National Emergency 
+
+_Mar 17_ - **Administration Asks Congress to Send Americans Direct Financial Relief**
+
+_Mar 19_ - California Issues Statewide Stay-at-Home Order 
+
+_Note: Keep in mind that the US government sending direct financial relief is bolded because it would be crucial for our understanding later on._
+
+When the COVID-19 outbreak hit the United States, there was a lot of uncertainty in both economic and financial standpoint. Majority of the people do not know how long the pandemic was going to last, or how the virus situation will be resolved. **As investors dislike uncertainties in their future outlooks**, investors began to unload their shares in the stock market, resulting in a major crash in March of 2020. The image below shows the chart of U.S. stock indexes being unloaded by investors, due to bad financial outlooks and uncertainties from the pandemic: 
+![US Stock Index chart from https://www.economicsobservatory.com/wp-content/uploads/2020/12/H1_Fig1.jpg](images/COvidCrash.jpg){width="500"}
+
+**US Government's Response to the Pandemic amid fear**
+_Source: [https://www.cnbc.com/2020/03/15/federal-reserve-cuts-rates-to-zero-and-launches-massive-700-billion-quantitative-easing-program.html]_
+
+As a response to the fear in the financial market, **the Federal reserve cuts interest rates to 0**, and launches a "massive $700 billion quantitative easing program for US citizens." This new round of quantitative easing was enforced in the hopes for helping US economy stand back from the ground and also creates an incentive for investors to pour their money back into the financial market. However, **this quantitative easing by the government can be understood as pouring more water into an already erupted volcano.**
+
+**What does my previous statement mean?** 
+Source1: [https://www.usaspending.gov/disaster/covid-19?publicLaw=all]
+Source2: [https://www.nasdaq.com/articles/money-printing-and-inflation%3A-covid-cryptocurrencies-and-more]
+
+In order to ease the ongoing fear, the U.S. government have created multiple relief packages, and the so called "Stimulus" package to support citizens nationwide. However, the money in the US Federal reserve are not even close to what the relief package has to offer to the citizens. Therefore, the only way for this massive stimulus and relief packages to go through is if the US government prints more money. According to www.federalreserve.gov, the United States Federal reserve only had around 4 Trillion US dollars in their balance. That being said, the total amount of money that were spent in stimulus package and Covid relief packages for businesses accounts for around 4.2 Trillion dollars. Understand that the money spent on these relief packages alone have already exceeded the budget that the US Federal reserve had in January of 2020. Therefore, a lot more money must be printed in order to save the economy and also the financial market. 
+
+According to nasdaq.com, the United States have printed in the total of around 13 Trillion US dollar in 2020-2021: $5.2$ Trillion (Covid) + $4.5$ Trillion (Quantitative Easing) + $3$ Trillion (Infrastructure)
+
+
+_So now you must be wondering, if US government can save the economy by printing more money, what is the downside of it all?_
+
+From simple supply and demand standpoint, if you increase supplies with same/lower demands, this would mean that the U.S. currency are being devalued as more money is being printed. Thus, with interests rates near 0, that means businesses and people can take out loans and pay back the same amount in the future. In addition, the covid-19 relief package also allows businesses and people to extend their loan payments, which would result in a loss in the US Federal Reserve standpoint. Think about it, as more US dollars are being printed (USD devalues), and you take out a loan, you can pay back the same amount in the future with no penalties. This has become a red hot concern for the Federal reserve because the relief packages not only inflates the USD, it would also mean that the US government are losing money day in and day out. 
+
+
+
+
+**Coincident or not? 2020-2021 was also a time where the HUGE cryptocurrency (Bitcoin) surge began!!!**
+```{r, echo=FALSE, warning=FALSE}
+BTC_data <- c(9350.529297,
+8599.508789,
+6438.644531,
+8658.553711,
+9461.058594,
+9137.993164,
+11323.4668,
+11680.82031,
+10784.49121,
+13780.99512,
+19625.83594,
+29001.7207,
+33114.35938,
+45137.76953,
+58918.83203,
+57750.17578,
+37332.85547,
+35040.83594,
+41626.19531,
+47166.6875,
+43790.89453,
+61318.95703,
+57005.42578,
+46306.44531
+)
+
+barplot(BTC_data, main = "Bitcoin Value 2020-2021", xlab = "Months 2020-2021", ylab = "BTC value", names.arg = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), cex.names = .5, col = "yellow")
+
+```
+```{r, echo=FALSE, warning=FALSE}
+library(vembedr)
+embed_youtube("vCJuDwRRRz4")
+embed_youtube("PfizlZv-ssU")
+
+```
+
+**What triggered the historical boom in the Cryptocurrency Market (2020-2021)?**
+To begin understanding the boom in cryptocurrency market in 2020-2021, we must first look at US interest rate data. That being said, the lower the interest rate, more money would be borrowed by US businesses and individuals, causing USD to devalue and also inflation to rise. Below is the US interest rate data chart: 
+```{r, echo=FALSE, warning=FALSE}
+Fed_Int_rate = read.csv("~/PSTAT 131/Final Project/data/FEDFUNDS.csv")
+plot(Fed_Int_rate$FEDFUNDS, type = "o", col = "blue", xlab = "Months, Starting from 2020 Jan", ylab = "Interest rate", main = "Federal Interest Rates 2020-2021")
+
+```
+
+After Covid-19 hit the United States in March of 2020, you could see a dramatic cut in interest rates from the graph above. With the near 0 interest rates and also the continuation of money printing in the United States, the value of United States dollar began to decrease. 
+Source:[https://www.marketwatch.com/investing/index/dxy/]
+```{r, echo=FALSE, warning=FALSE}
+USD_2020_2021 = read.csv("~/PSTAT 131/Final Project/data/USD2020-2021.csv")
+barplot(USD_2020_2021$Close, main = "USD Value 2020-2021", xlab = "Months 2020-2021", ylab = "USD Value", names.arg = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), cex.names = .5, col = "yellow")
+```
+When comparing Bitcoin's Value, Interest Rates, and also USD value, you could see that Bitcoin have surged when the interest rates remain near 0 and the declining USD. On the other hand, if you look at June 2021, the interest rate rose, while the BTC price plummeted, and the USD rose. This shows the correlation of why Bitcoin value is correlated with Federal interest rates and also the US dollar. This makes a lot of sense because Bitcoin is an asset that people put their money in when the US dollar is weakening. A simple explanation to this "money in assets" idea would be that if the USD collapses, the actual price of the stock market/assets (such as Bitcoin) may increase in price as a result of hyperinflation. To think into perspective, the REAL value of your assets when compared to other foreign currencies (not USD) would decrease. Therefore, the surge of Bitcoin in 2020-2021 could be seen as a correlation to the near 0 interest rates and the declining USD. 
+
+**Here is another look at the comparison between BTC vs USD:**
+![BTCvsUSD Image from https://cointelegraph.com/news/bitcoin-vs-usd-why-only-a-weaker-dollar-will-push-btc-above-20-000](images/BTCvsUSD.png){width="1200"}
+In the image above, the _blue line_ is the _US Dollar Currency Index (DXY)_, and the _black line_ is the _Bitcoin price_. This comparison chart shows strong correlation between USD and BTC. Again, this proves the point where the surge of Bitcoin in 2020-2021 could be seen as a correlation to the near 0 interest rates and the declining USD. 
+
+**DO NOT BELIEVE PEOPLE LIKE THIS EXPLAINING HOW BITCOIN IS VALUED BY SUPPLY AND DEMAND (IT IS NOT THIS SIMPLE):**
+```{r, echo=FALSE, warning=FALSE}
+library(vembedr)
+embed_youtube("TmrGgeQIr8o")
+```
+**So, if Bitcoin ISN'T valued by simple Supply and Demand, How is Bitcoin Valued By The Market?**
+
+Bitcoin Valuation by the market can be broken down into 3 parts:
+
+1. _Influence by a combined inflation derivative called the "Required Yield" (RY) and the TIPS Yield (Treasury Inflation-Protected Security)_ **NOTE: We will be using 5 Year maturity for simpler terms**
+
+2. _5 Year TIPS yield vs FED Assets_ 
+
+3. _Understanding of "GOLD" assets in comparison with Bitcoin_
+
+
+**1. Bitcoin is influenced by a combined inflation derivative called the "Required Yield" (RY) and the TIPS Yield (Treasury Inflation-Protected Security)**
+
+To begin, you must be wondering, what is Required Yield and the TIPS Yield. The Required Yield, according to Investopedia.com, is the "minimum acceptable return that investors demand as compensation for accepting a given level of risk, especially in terms of fixed-income securities such as bonds." On the other hand, the Treasury Inflation-Protected Security (TIPS), according to Investopedia.com, is the "Treasury bonds that are indexed to an inflationary gauge to protect investors from the decline in the purchasing power of their money." That being said, we would expect TIPS to rise when inflation of the USD rises. However, the interest payment of the TIPS bond would remain the same compare to the time when you purchase this bond, it is adjusted according with the principle value of the bond. So on the simpler term, the **Treasury Inflation Protected Security** basically means that it provides **protection against inflation.**
+
+**Now that we understand the Required Yield and the TIPS Yield, how do these yield effect the valuation of Bitcoin?**
+If you look at the chart below: 
+
+![Bitcoin VS RY-TIPS5 from https://fred.stlouisfed.org/](images/RYTIPS.png){width="500"}
+
+As you can see here, Bitcoin (Blue) is heavily influenced by the $Real$ $Yield$ $-$ $TIPS5$.
+
+It is quite clear that this relationship have held since 2017, and became more pronounced with both the spike in this combined yield and the value of Bitcoin itself. While investment flows and commercial use certainly have effects on Bitcoin pricing, this is a compelling evidence that real yield and expected inflation are major drivers of Bitcoin. 
+
+Now, in order to prove the previous explanation of why Cryptocurrencies, especially Bitcoin, had a major boom in 2020-2021 due to inflation and lower interest rates, we can look at the comparison between the TIPS (5-Year Maturity) and Federal Reserve Assets:
+![FED ASSETS VS RY-TIPS5 from https://fred.stlouisfed.org/](images/FEDAvsTIPS.png){width="500"}
+
+As you can see in the chart, 2008 to 2012 period, you see an cross between the Total Fed Assets and TIPS5. The reasoning behind this is that, after a brief yield spike during the initial phases of the 2008 Financial Crisis, the expected inflation turned massively negative. What happened next? The Federal reserve bought trillions of impaired financial assets, and the TIPS yield began a collapse into negative territory as the Fed increased its asset holdings, such as buying distressed loans with **more printed money** into capital markets. Why did the Federal Reserve do that? The answer is simple, if the FED did not buy more distressed loans during this period of time, we would have seen trillions of dollars at loss in capital destruction in the market. Therefore, it is clear that there is an inverse correlation between the change in FED assets and the TIPS (5-Year Maturity). 
+
+So how does this prove the point about the Bitcoin boom in 2020-2021?
+In 2020, the Federal Reserve's action in response to the COVID-19 crisis (COVID-19 Relief Package / Stimulus / Cut of Rates), which resulted in many more trillions of printed money pumped into the economy, have caused the TIPS to increase in value, as you can see in the chart. This increment of the TIPS value during this period of time, was the same reason why Bitcoin have surged, which is inflation. On a simpler term, TIPS increases with inflation (Caused by more printed money by the FED), but also decreases with deflation.
+
+**Now that we have understood the principles of how FED assets affect the TIPS (5-Year Maturity), and how TIPS has a strong correlation with Bitcoin's value, what are the other factors into the markets valuation of Bitcoin?**
+
+This brings us to last indicator of my research, which is the _Understanding of "GOLD" assets in comparison with Bitcoin_. Similarly to Gold Assets, Bitcoin shares a key attribute in the sense that both Gold and Bitcoin have limited supply. While Bitcoin has a finite supply in the clouds, Gold supplies are distributed in an increasing rate proportionally with the rate of population growth(More population, more demand for Gold, which results in more supply of gold increased by increased mining). The limited supply of Bitcoin and Gold plays an important part into its own valuation because the real GDP (US in this case) grows at a faster pace than the supply growth of both Bitcoin and Gold. In comparison, the US dollar supplies generally grow in a faster pace than the real GDP growth. Therefore, the limited supplies of Bitcoin and Gold makes it such a valuable assets in comparison to holding cash. This becomes the main driver to why investors, during the 2020-2021 period, loaded up so many bitcoin assets when the Federal reserve is printing more money, inflating the US currency. With more investors wanting to hold onto assets like Gold and Bitcoin, the demand for these monetary assets became higher. Thus, with the demand of Bitcoin grows faster than the growth of the supply, the value of the assets becomes more valuable. In other words, investors' doesn't want to hold onto their cash because it is being devalued. Therefore, they turn their heads into assets such as Bitcoin/Gold because it retains the value at a much better pace than of the US currency. 
+
+![Bitcoin VS RY-TIPS5 from https://fred.stlouisfed.org/](images/Question.jpg){width="500"}
+
+**Now that we have discussed about Bitcoin's Valuation, we can move into part 3: ** _My collected Data with: Names, Age, Gender, Investments, Bitcoin?, Other Crypto, and Income_ 
+```{r, echo=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(ggplot2)
+library(ggthemes)
+library(corrplot)
+library(corrr)
+library(pROC)
+library(klaR)
+tidymodels_prefer()
+library(poissonreg)
+library(discrim)
+library(ISLR)
+library(ISLR2)
+library(glmnet)
+#Loading Bitcoin Data
+mydata = read.csv("~/PSTAT 131/Final Project/data/mydata.csv")
+mydata
+```
+**From this part of the project, I have collected data from my peers:**
+The purpose of this research is to use my peers and friends to get a better understanding of how gender, age, and income effect people's decision into investing, investing bitcoin, and also investing into other cryptocurrencies. Although I understand that this does not represent the population of the whole world, this conducted research would give me a better understanding of how specific characteristics effect my peers decision into investing. So, before we begin, we can perform cleaning data sets with the cleannames() function:
+```{r, echo=FALSE, warning=FALSE}
+library(janitor)
+cleaned = clean_names(mydata)
+cleaned
+```
+By Cleaning the Data set by name, we can find repeated First name / Last name in order to make sure that we do not have the duplicate of the same person, if the age/gender/invest/btx/other_cryp/income are the same with the names, I will be concerned into accidentally typing the same person inside the data twice. 
+
+```{r, echo=FALSE, warning=FALSE}
+cleaned %>%
+  ggplot(aes(x = gender)) + geom_bar()
+
+```
+
+With the gender plot, we can conclude that way more males have been conducted into this research than females. A great explanation to this would be that I have interviewed more males than females, however, due to time and social constraints, we will have to stick with this data. 
+
+In this case of study, I would first like to filter out the people who have no income, to understand how people with no income correlates with their investments. 
+
+```{r, echo=FALSE, warning=FALSE}
+cleaned_0 <- cleaned %>%
+  filter(income == "0" )
+cleaned_0
+```
+**Now that we have filtered the people with no income, we can convert age, gender, and whether or not the individual invest into factors:**
+```{r, echo=FALSE, warning=FALSE}
+cleaned_0$age <- as.factor(cleaned_0$age)
+cleaned_0$gender <- as.factor(cleaned_0$gender)
+cleaned_0$invest <- as.factor(cleaned_0$invest)
+cleaned_0$btc <- as.factor(cleaned_0$btc)
+cleaned_0$other_cryp <- as.factor(cleaned_0$other_cryp)
+```
+Now that we have turn the individual characteristics into factors, we may split the data to represent the whole: 
+```{r}
+set.seed(3435)
+data_split <- initial_split(cleaned_0, prop = 0.8, strata = invest)
+data_train <- training(data_split)
+data_test <- testing(data_split)
+
+data_train %>%
+  head()
+
+dim(data_train)
+dim(data_split)
+
+data_recipe <- recipe(invest~gender + age + btc + other_cryp, data = data_train)%>%
+  step_dummy(all_nominal_predictors())%>%
+  step_interact(terms = ~gender:invest)%>%
+  step_interact(terms = ~age:invest)%>%
+  step_impute_linear(age, impute_with = imp_vars(all_predictors()))
+
+data_fold <- vfold_cv(data_train, v = 5, strata = invest)
+data_fold
+```
+Now that we have this dataset, we came into the conclusion that these no-income indivduals have similarity in no investments. In this small size data set, we can see that these individuals who are typically around the age of 21-22 (college students), have no investments overall, no investments in bitcoin, and also no investments in other crypto-currency. Since the data set is quite small, it is hard to conclude that gender played an role in investments. However, from this small data set, we may conclude that 0-income, 21-22 age, the males are dominant in no investments for investing, investing bitcoin, and also investing in other crypto-currency. 
+
+In this part that I would like to conduct is to test whether age effects people's income. I would expect the lower the age, the lower the income:
+```{r, echo=FALSE, warning=FALSE}
+cleaned_inc <- cleaned %>%
+  filter(income != "0" )
+cleaned_inc
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+Wage <- as_tibble(cleaned_inc)
+
+set.seed(3435)
+inc_split <- initial_split(cleaned_inc, strata = "income")
+
+inc_train <- training(inc_split)
+inc_test <- testing(inc_split)
+
+
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+rec_poly <- recipe(income ~ age, data = inc_train) %>%
+  step_poly(age, degree = 4)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+lm_spec <- linear_reg() %>%
+  set_mode("regression") %>%
+  set_engine("lm")
+
+poly_wf <- workflow() %>%
+  add_model(lm_spec) %>%
+  add_recipe(rec_poly)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+poly_fit <- fit(poly_wf, data = cleaned_inc)
+poly_fit
+
+tidy(poly_fit)
+```
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+poly(1:6, degree = 4, raw = FALSE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+poly(1:6, degree = 4, raw = TRUE)
+```
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+rec_raw_poly <- recipe(income ~ age, data = cleaned_inc) %>%
+  step_poly(age, degree = 4, options = list(raw = TRUE))
+
+raw_poly_wf <- workflow() %>%
+  add_model(lm_spec) %>%
+  add_recipe(rec_raw_poly)
+
+raw_poly_fit <- fit(raw_poly_wf, data = cleaned_inc)
+
+tidy(raw_poly_fit)
+```
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+age_range <- tibble(age = seq(min(cleaned_inc$age), max(cleaned_inc$age)))
+
+regression_lines <- bind_cols(
+  augment(poly_fit, new_data = age_range),
+  predict(poly_fit, new_data = age_range, type = "conf_int")
+)
+regression_lines
+```
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+cleaned_inc %>%
+  ggplot(aes(age, income)) +
+  geom_point(alpha = 0.2) +
+  geom_line(aes(y = .pred), color = "darkgreen",
+            data = regression_lines) +
+  geom_line(aes(y = .pred_lower), data = regression_lines, 
+            linetype = "dashed", color = "blue") +
+  geom_line(aes(y = .pred_upper), data = regression_lines, 
+            linetype = "dashed", color = "blue")
+```
+
+From the Diagram, due to the small size of the data, it is hard to predict whether or not age plays a role into people's income. However, if we look between ages 20-30, we can see that there is a uptrend as age increases, income increases. This would suggest that age does play a factor into people's income. I believe that this is true because at around 18-25 years old, many people conducted in this research were students, therefore, the income would generally be less than of people who are working full time. Since our data is small, the prediction in this model tend to have negative aspects, and it is incorrect in the sense that you can't have negative income. So we must ignore the income value in this case. But if we look forward, the prediction made as age goes up, the frame of prediction for higher age have wider prediction for higher income. This also makes a lot of sense because the older people that I have interviewed for this research tend to have businesses, therefore resulting in higher income. To see a more accurate results for my research, we can provide a set of age into research, in this case I have set ages 18 to 65:
+
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by Lab-6
+wide_age_range <- tibble(age = seq(18, 65))
+
+regression_lines <- bind_cols(
+  augment(poly_fit, new_data = wide_age_range),
+  predict(poly_fit, new_data = wide_age_range, type = "conf_int")
+)
+
+cleaned_inc %>%
+  ggplot(aes(age, income)) +
+  geom_point(alpha = 0.2) +
+  geom_line(aes(y = .pred), color = "darkblue",
+            data = regression_lines) +
+  geom_line(aes(y = .pred_lower), data = regression_lines, 
+            linetype = "dashed", color = "red") +
+  geom_line(aes(y = .pred_upper), data = regression_lines, 
+            linetype = "dashed", color = "red")
+```
+
+Now that we have decreased our range of research for age, the prediction for this model holds true to my previous statements. As you can see from ages 18-30, the prediction shows a increase correlation between age and income. Due to majority of the data researched in this project lies around the ages between 20-24 (college students) the prediction range for ages 20-25 becomes small for this range of age. Thus, with shortening the range for ages also have the similar results from previous model where the higher the age, the wider the prediction for higher income. Again, this could be explained in the sense that the data collected from higher aged people tend to have businesses, thus resulting in higher income. 
+
+Now that we have understood the slight correlation between age and income, we may try to see whether or not higher income correlates with higher age and thus their investments in Bitcoin, I would be using income higher than 25k for this research:
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by lab 6
+
+cleaned_inc <- cleaned_inc %>%
+  mutate(high = factor(income > 25000, 
+                       levels = c(TRUE, FALSE), 
+                       labels = c("High", "Low")))
+```
+Using the same method from previous steps, the results follows: 
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by lab 6
+rec_poly <- recipe(btc ~ age, data = cleaned_inc) %>%
+  step_poly(age, degree = 4)
+
+lr_spec <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+lr_poly_wf <- workflow() %>%
+  add_model(lr_spec) %>%
+  add_recipe(rec_poly)
+
+lr_poly_fit <- fit(lr_poly_wf, data = cleaned_inc)
+
+predict(lr_poly_fit, new_data = cleaned_inc)
+
+
+predict(lr_poly_fit, new_data = cleaned_inc, type = "prob")
+
+predict(lr_poly_fit, new_data = cleaned_inc, type = "conf_int")
+```
+From this analysis of research, the predicted class for people having income more than 25k shows that majority of these people are not invested in Bitcoin. The reason behind could possibly be that people with higher income does not need to put themselves into volatile assets such as Bitcoin. This proves the point moving forward in the economy because in the previous parts of the project, our analysis shows that Bitcoin have strong correlations with both Federal Assets and also Federal interest rates. Due to high inflation now in the United States, many investors would believe that the Federal Reserve would cut down on their monetary assets (less printed money) and also increased interests rate for the upcoming months. Another reason why these people with higher income (>25k) do not invest in Bitcoin could be explained by them not seeing value in Bitcoin. The reason behind this is because Bitcoin does not have intrinsic value, rather, it is an asset that investors put in to cover their losses in inflated USD. The prediction research also shows higher probability into no than yes for individuals, proving that these individuals in the research that have substantial capital would rather invest in other common stocks than into Bitcoin. Therefore, due to these reasoning, majority of the people in this research with income higher than 25k did not invest into bitcoin.  
+
+Now that we have conducted research on people who have income higher than 25k, we can also look into people that have income less than 25k to see whether or not they invested into BTC (Using the Same Method):
+
+```{r, echo=FALSE, warning=FALSE}
+
+cleaned_inc <- cleaned_inc %>%
+  mutate(high = factor(income < 25000, 
+                       levels = c(TRUE, FALSE), 
+                       labels = c("High", "Low")))
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by lab 6
+rec_poly <- recipe(btc ~ age, data = cleaned_inc) %>%
+  step_poly(age, degree = 4)
+
+lr_spec <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+lr_poly_wf <- workflow() %>%
+  add_model(lr_spec) %>%
+  add_recipe(rec_poly)
+
+lr_poly_fit <- fit(lr_poly_wf, data = cleaned_inc)
+
+predict(lr_poly_fit, new_data = cleaned_inc)
+
+
+predict(lr_poly_fit, new_data = cleaned_inc, type = "prob")
+
+predict(lr_poly_fit, new_data = cleaned_inc, type = "conf_int")
+```
+The results shown from this research also concludes similar results to people with higher income(>25k), majority of the people with less than 25k income still did not invest their money into Bitcoin. However, in the prediction classes for invested in Bitcoin, there are few more people who are invested into Bitcoin. I believe that this is the case because generally people with lower income will more likely to play with volatility of specific assets. In other words, since their incomes are lower, they tend to gamble with their money into assets that have higher probability in spiking prices than of common stocks. In addition, as we seen from previous prediction model, smaller income generally correlates with younger age in our data research. The age of the people could also suggest their experience with the market. Generally, people with less experience with the market would put their money into volatile assets in hopes of becoming "rich." 
+
+**How does having income/no income correlate with people investing into the market?**
+In this part of the research, I will use the cleaned data for people have no income. I want to see whether or not they are invested into the market and also whether or not they are invested in the Bitcoin. Take into consideration that the data collected in this project only represents the people that I have researched for this project, so it doesn't represent the whole population. 
+
+**Individuals With No Income**
+```{r, echo=FALSE, warning=FALSE}
+no_income <- cleaned %>%
+  filter(income == "0" )
+no_income
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by lab 6
+
+
+rec_poly <- recipe(invest ~ age, data = no_income) %>%
+  step_poly(age, degree = 4)
+
+lr_spec <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+lr_poly_wf <- workflow() %>%
+  add_model(lr_spec) %>%
+  add_recipe(rec_poly)
+
+lr_poly_fit <- fit(lr_poly_wf, data = no_income)
+
+predict(lr_poly_fit, new_data = no_income)
+
+
+predict(lr_poly_fit, new_data = no_income, type = "prob")
+
+predict(lr_poly_fit, new_data = no_income, type = "conf_int")
+```
+
+From this part of the research, majority of the individuals that have no income did not invest. The reasoning behind this could be explained in the sense that these types of people, majority college students, do not have the financial capital to invest. The prediction of this model also predicts that people with no income would not take investing into consideration. We can look at the bar chart for people who have no income, and whether or not they have invested:
+
+```{r, echo=FALSE, warning=FALSE}
+no_income %>%
+  ggplot(aes(x = invest)) + geom_bar()
+
+```
+
+This table shows also proves the prediction right in the sense that majority of the people tend to not have invested with their money (no income). However, there are still some individuals with 0 income to invest. I believe that the people who does not have an income but still invests into the market is explained by them using the money they've received from their parents to invest the money. 
+
+**Now, an interesting thing to research would be that the people with no income, but are still investing. How many of these people are invested into Bitcoin?**
+The results follows:
+```{r, echo=FALSE, warning=FALSE}
+invest_no_income <- cleaned %>%
+  filter(income == "0" & invest == "yes")
+invest_no_income
+```
+```{r, echo=FALSE, warning=FALSE}
+invest_no_income %>%
+  ggplot(aes(x = btc)) + geom_bar()
+
+```
+With the clean function, we have sorted out 12 individuals from the data set that are invested into the market and have no income. Out of these 12 individuals, only 2 of the individuals are invested into Bitcoin. This part of the research was quite surprising because less than 17% of the people who have no income but are invested into the market have invested in Bitcoin. 
+
+**On the other hand, lets see people who have income and are invested into the market, invested in Bitcoin?**
+```{r, echo=FALSE, warning=FALSE}
+invest_yes_income <- cleaned %>%
+  filter(income != "0" & invest == "yes")
+invest_yes_income
+
+invest_yes_income %>%
+  ggplot(aes(x = btc)) + geom_bar()
+
+```
+
+This part of the research shows that majority of the people who have income, and are invested in the market have put their money into assets such as Bitcoin. This part of the research is slightly different than the previous predicted model because this concludes ALL of the people with income to see whether or not they are invested into bitcoin. While slightly less than half of the that are investing have no investments in Bitcoin, the bar chart shows that the majority remaining individuals have invested into Bitcoin. This shows that Bitcoin still have its popularity among people who have investments and income. Now that these people are invested into Bitcoin, I would also want to see if they are invested into other cryptocurrencies:
+
+```{r, echo=FALSE, warning=FALSE}
+invest_yes_income <- cleaned %>%
+  filter(income != "0" & invest == "yes" & btc == "yes")
+invest_yes_income
+
+invest_yes_income %>%
+  ggplot(aes(x = other_cryp)) + geom_bar()
+
+```
+
+This bar chart shows that the majority of the people who are invested (common stock & BTC) have also invested into other cryptocurrencies. I believe that this also reflects my understanding of crypto investors. I believe that crypto investors generally diversify their crypto portfolio to catch the possibility of the next cryptoboom in the upcoming future. However, as my research conducted in this project proves that cryptocurrencies (such as bitcoin) are highly correlated with Fed Assets and Fed interest rates, I would strongly recommend these individuals to be aware of what is going on in the near future. Rate hikes and Balance Sheet reduction may cause a lot of loss in assets for these individuals who are invested into bitcoin and other cryptocurrencies. 
+
+**Now that we have found some correlation in our dataset, we can perform a linear/polynomial regression test to predict income from age.**
+_Why would we perform model to predict income from age?_ In this part of the project, I would like to predict income from age.  We can perform these model by splitting the data, also to decide whether polynomial or linear regression model has better fit for prediction. In my personal opinion before testing, I would expect the polynomial model to have better fit because income and age from glancing the dataset, age and income doesn't seem to have a linear relationship:
+**1. Linear Regression model**
+```{r, echo=FALSE, warning=FALSE}
+library(tidymodels)
+library(ISLR)
+library(ISLR2)
+library(tidyverse)
+tidymodels_prefer()
+# Reading in data again
+mydata = read.csv("~/PSTAT 131/Final Project/data/mydata.csv")
+#Splitting Data
+set.seed(150)
+splitdata <- initial_split(mydata, strata = income, prop = 0.7)
+splitdata
+# Testing Set and Training Set
+traindata <- training(splitdata)
+testdata <- testing(splitdata)
+# Check Both Test and Train Data have the same # of observations
+dim(traindata)
+dim(testdata)
+#Setting Linear Regression
+lm_spec <- linear_reg() %>%
+  set_mode("regression") %>%
+  set_engine("lm")
+
+lm_fit <- lm_spec %>% 
+  fit(income ~ age, data = mydata)
+
+```
+Now that we have created both testing and training set from the original data set, we can perform augment function for root mean squared error (Inspired by lab4). **Testing the test data:** 
+```{r, echo=FALSE, warning=FALSE}
+augment(lm_fit, new_data = testdata) %>%
+  rmse(truth = income, estimate = .pred)
+```
+
+**Testing the train data:** 
+```{r, echo=FALSE, warning=FALSE}
+augment(lm_fit, new_data = traindata) %>%
+  rmse(truth = income, estimate = .pred)
+```
+
+**Now that we have the rmse for both testdata and traindata for linear regression model, we would have to compare the rmse to the polynomial model to see which model has better performance in fitting:**
+
+```{r, echo=FALSE, warning=FALSE}
+#Inspired by lab4
+poly_rec <- recipe(income ~ age, data = mydata) %>%
+  step_poly(age, degree = 2)
+
+poly_wf <- workflow() %>%
+  add_recipe(poly_rec) %>%
+  add_model(lm_spec)
+
+poly_wf
+# Fitting polynomial model
+poly_fit <- fit(poly_wf, data = mydata)
+# Finding rmse for polynomial model
+augment(poly_fit, new_data = mydata) %>%
+  rmse(truth = income, estimate = .pred)
+```
+
+Since the RMSE for the polynomial model is lower than the linear model regression, the polynomial regression has a better fit for predicting income by age. Now that we understand that the polynomial regression model has a better fit in predicting income by age, we must also find the accuracy for this model. If the accuracy is not great, we would also disregard it: 
+
+```{r, echo=FALSE, warning=FALSE}
+# Inspired by lab4
+poly_tuned_rec <- recipe(income ~ age, data = traindata) %>%
+  step_poly(age, degree = tune())
+
+poly_tuned_wf <- workflow() %>%
+  add_recipe(poly_tuned_rec) %>%
+  add_model(lm_spec)
+
+```
+
+**We will perform a k-fold cross-validation to splitting the data samples. We will group and split the data into 10 groups. We use this method to ensure that both test and training sets could include most of the data's that are in the data set researched**
+
+```{r, echo=FALSE, warning=FALSE}
+datafolds <- vfold_cv(traindata, v = 10)
+datafolds
+#Creating a grid with 10 levels for the data
+degree_grid <- grid_regular(degree(range = c(1, 10)), levels = 10)
+degree_grid
+```
+
+**Now that we have folded our data, we will fill the 10 row with fitted models within each fold for each value specified in degreegrid (inspired by lab 4). Thus we would want to collect metrics for the tuned function, and also show the best performing models out of the 10**:
+
+```{r, echo=FALSE, warning=FALSE}
+tune_res <- tune_grid(
+  object = poly_tuned_wf, 
+  resamples = datafolds, 
+  grid = degree_grid
+)
+
+autoplot(tune_res)
+
+collect_metrics(tune_res)
+
+show_best(tune_res, metric = "rmse")
+
+best_degree <- select_by_one_std_err(tune_res, degree, metric = "rmse")
+
+# Creating another workflow
+workflow_final <- finalize_workflow(poly_wf, best_degree)
+
+workflow_final
+
+```
+
+
+**After the previous steps, we will have to fit the best performing model back to the original data set. Thus we can also perform an accuracy test to see if the polynomial regression model is accurate enough:**
+
+```{r, echo=FALSE, warning=FALSE}
+#Inspired by lab4
+final_fit <- fit(workflow_final, traindata)
+final_fit
+
+augment(final_fit, new_data = testdata) %>%
+  rmse(truth = income, estimate = .pred)
+```
+Since the RMSE remains relatively high, both the polynomial and linear regression model cannot be used for our dataset. In addition, since our data is quite small, it is quite hard to set up a model in predicting individual's income by age. All in all, we have split, folded, tested, trained our data set with both age and income. But with RMSE relatively high, we have to reject both regression model because of its relatively low accuracy. 
+
+
+**CONCLUSION for the project**
+
+
+All in all in this discovery project, there were 3 major parts that I've focused:
+1. _What triggered the historical boom in the Cryptocurrency Market?_
+
+In this section of the project, the timeline for the historical boom in the cryptocurrency have been broken down. From the start of Covid-19 pandemic, the US government have issued a nation wide lock-down, which reflected a fear in the investing community. Shortly after the pandemic was announced, many investors took out their assets and money in the stock market amid fear and uncertainty for future outlook. With the US economy heads into a dramatic downfall, the US government and the US Federal Reserve stepped in to prevent US to head into a historical financial crisis. The Federal reserve cut the interest rates to near 0 and have printed more money for Covid-19 relief packages (Such as the stimulus package). Thus, with more printed money and historical low interests rates, the USD began to see its decline in value. Therefore, the historical boom in the cryptocurrency market could be explained by investors wanting to buy financial assets that retains value much better than holding cash. 
+
+2. _How is cryptocurrency, specifically Bitcoin, valuated by the Market?_
+
+For this part of the project, I have discussed through multiple calls with a tremendous Private investor, Wilson Chen. From the discussion, I took away key points into cryptocurrency valuations, specifically Bitcoin. To understand how Bitcoin is valuated, I have broken down the valuation into 3 specific parts. First, Bitcoin is influence by a combined inflation derivative called the "Required Yield" (RY) and the TIPS Yield (Treasury Inflation-Protected Security). As shown from the graph in this section, Bitcoin value have an clear correlation with RY - TIPS (5-year Maturity). This could be explained by how the Federal Reserve printed more money causing inflation into the US currency, thus on simpler terms, driving the prices of Bitcoin up. This brings us to the section of Bitcoin's valuation by the market, 5 Year TIPS yield vs FED Assets. It is clear that there is an inverse correlation between the change in FED assets and the TIPS (5-Year Maturity) from the graph provided in this section. Thus, if inflation goes up, it means that the federal Assets increases. On the other hand, if there is deflation in the economy, this means that the federal reserve have started their monetary tightening. This affects the prices of Bitcoin because on simpler terms, Bitcoin correlates with inflation in the US currency. On the last part of the Bitcoin valuation by the market, Bitcoin could be compared to material assets such as gold. Both Gold and Bitcoin shares its limited availability in common and thus both of these assets retains/grows value in a much better pace than US dollar being inflated. While investment flows and commercial use certainly have effects on Bitcoin pricing, these 3 ompelling evidences provides detailed explanation to why real yield and expected inflation are major drivers of Bitcoin. 
+
+
+
+3. _My collected Data with: Names, Age, Gender, Investments, Bitcoin?, Other Crypto, and Income_ 
+
+For this part of the project, I have reached out to peers and relatives to create a data set to do further researches. The data set includes Names, Gender, Investments, whether or not individuals are invested in BTC, whether or not individuals are invested in other cryptocurrencies, and also the inviduals income. From this part of the project, I have conducted models and charts to find correlation between each variables for individuals. Even though my dataset is relatively small and also biased in the sense that these are the people that I know, we may not use this researched data sets to represent the whole population in the world. However, even with my data constraints, I have made regression models and charts to provide insights for the relationships between each variable. Some of the outcomes came out to be surprising to me. For instance, I realized that most people with higher income (>25k) tend to invest, but most of them have invested in common stocks in the market instead of cryptocurrencies. On the other hand, people with lower income (<25k) tend to invest into cryptocurrencies. This could be explained in the sense that people with higher capital do not need to risk their cash with high volatility assets such as Bitcoin. Another interesting research that I've found while working in this part of the project would be that both linear and polynomial model could not be used into predicting income with individual's age. I believe that both models performed poorly because of the small dataset that I've had for this project. All in all, this project have been very interesting to me and I have learned a lot along the way. I hope that this research could also educate audiences about cryptocurrencies and bitcoin, and also finding correlations of who and what people are investing into cryptocurrencies. Now that this project comes into an end, I would STRONGLY suggest individuals to not invest into cryptocurrencies during this period because of pressure from the FEDS to conduct rate hikes and also the US have again showed poor outlook in its economy. However, if you are making money through cryptocurrencies, keep it up! Just understand your risks and also understanding how these currencies are being valued by the market!   
